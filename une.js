@@ -16,7 +16,7 @@ try{
 	window.localStorage;
 }catch(e){
 	cuLS=false;
-	gui.err("LocalStorage use denied.\nPlease enable cookies and thus localStorage\n(which are two different things).");
+	gui.msg("Cookies","LocalStorage use denied.\nEnable cookies if you wanna save filters, camera, and other unimportant stuff.\nThe important stuff is saved to the server :)");
 }
 originalState={stars:[],cities:[],resources:[],buildings:[],projects:[]};
 originalLocalState={selectedStarIndex:-1,dev:false,blur:false,simple:false,filter:""};
@@ -42,16 +42,15 @@ function save(andUpload){
 		theta: starmap.theta,
 		radius: starmap.cameraRadiusTo,
 	};
+	var uneJSON = JSON.stringify(state);
+	var uneLocalJSON = JSON.stringify(localState);
 	try{
-		localStorage.une=JSON.stringify(state);
-		localStorage.uneLocal=JSON.stringify(localState);
+		localStorage.une=uneJSON;
+		localStorage.uneLocal=uneLocalJSON;
 	}catch(e){}
-	try{
-		if(andUpload && tdtsth!==localStorage.une){
-			post('/une/save',localStorage.une);
-			tdtsth=localStorage.une;
-		}
-	}catch(e){}
+	if(andUpload && tdtsth!==uneJSON){
+		post('save.py',tdtsth=uneJSON);
+	}
 }
 
 //////////////////
@@ -1112,6 +1111,7 @@ function post(url, json){
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	xhr.send("json="+json);
+	console.log(xhr);
 }
 function get(url, callback){
 	var xhr = new XMLHttpRequest();
