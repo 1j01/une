@@ -1112,7 +1112,15 @@ function post(url, json){
 		if(xhr.readyState==4){
 			console.log(xhr.responseText)
 			if(xhr.responseText!=="saved\n"){
-				gui.err("Error: "+xhr.responseText);
+				//gui.err("Error: "+xhr.responseText);
+				var m=new Modal().title("Error").position("center").content("Could not save. <br> <button id='close'>Close</button><button id='retry'>Retry</button>");
+				m.$("#close").onclick=function(){
+					m.close();
+				};
+				m.$("#retry").onclick=function(){
+					m.close();
+					tdtsth="out of date, whatever it is";
+				};
 			}
 		}
 	};
