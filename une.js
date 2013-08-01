@@ -1108,10 +1108,18 @@ function randomName(){
 function log(s){console.warn(s);}
 function post(url, json){
 	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState==4){
+			console.log(xhr.responseText)
+			if(xhr.responseText!=="saved\n"){
+				gui.err("Error: "+xhr.responseText);
+			}
+		}
+	};
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 	xhr.send("json="+json);
-	console.log(xhr);
+	console.log("saving");
 }
 function get(url, callback){
 	var xhr = new XMLHttpRequest();
