@@ -32,9 +32,9 @@ try{
 
 setTimeout(function(){
 	setInterval(save,100);
-	setInterval(function(){
-		save(true);
-	},1060);
+	// setInterval(function(){
+	// 	save(true);
+	// },1060);
 },300);
 
 function save(andUpload){
